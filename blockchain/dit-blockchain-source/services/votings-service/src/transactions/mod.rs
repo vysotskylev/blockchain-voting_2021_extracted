@@ -15,6 +15,7 @@ mod publish_decryption_key;
 mod decrypt_ballot;
 mod finalize_voting;
 mod finalize_voting_with_results;
+mod change_public_api_key;
 
 use create_voting::TxCreateVoting;
 use register_voters::TxRegisterVoters;
@@ -28,6 +29,7 @@ use publish_decryption_key::TxPublishDecryptionKey;
 use decrypt_ballot::TxDecryptBallot;
 use finalize_voting::TxFinalizeVoting;
 use finalize_voting_with_results::TxFinalizeVotingWithResults;
+use change_public_api_key::TxChangePublicApiKey;
 
 #[exonum_interface]
 pub trait VotingsServiceInterface<Ctx> {
@@ -68,6 +70,9 @@ pub trait VotingsServiceInterface<Ctx> {
 
     #[interface_method(id = 11)]
     fn finalize_voting_with_results(&self, ctx: Ctx, tx_args: TxFinalizeVotingWithResults) -> Self::Output;
+    
+    #[interface_method(id = 12)]
+    fn change_public_api_key(&self, ctx: Ctx, tx_args: TxChangePublicApiKey) -> Self::Output;
 }
 
 impl VotingsServiceInterface<ExecutionContext<'_>>  for VotingsService {
@@ -119,5 +124,9 @@ impl VotingsServiceInterface<ExecutionContext<'_>>  for VotingsService {
 
     fn finalize_voting_with_results(&self, ctx: ExecutionContext<'_>, tx_args: TxFinalizeVotingWithResults) -> Self::Output {
         TxFinalizeVotingWithResults::execute(&self, ctx, tx_args)
+    }
+
+    fn change_public_api_key(&self, ctx: ExecutionContext<'_>, tx_args: TxChangePublicApiKey) -> Self::Output {
+        TxChangePublicApiKey::execute(&self, ctx, tx_args)
     }
 }

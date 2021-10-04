@@ -16,7 +16,7 @@ pub use self::transactions::{
     TxAddVoterKey, TxBallotConfig, TxCreateVoting, TxCryptoSystemSettings, TxDecryptBallot,
     TxDistrictResults, TxEncryptedChoice, TxFinalizeVoting, TxFinalizeVotingWithResults,
     TxIssueBallot, TxPublishDecryptionKey, TxRegisterVoters, TxRevokeVoterParticipation,
-    TxStopRegistration, TxStopVoting, TxStoreBallot, TxVotingResults,
+    TxStopRegistration, TxStopVoting, TxStoreBallot, TxVotingResults, TxChangePublicApiKey
 };
 
 pub use self::ballot_status::BallotStatus;

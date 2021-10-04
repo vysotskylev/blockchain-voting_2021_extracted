@@ -82,6 +82,8 @@ impl TxCreateVoting {
       let service_data = context.service_data();
       let config = ServiceConfig::instantiate(service_data.clone());
 
+      println!("Service config API keys: {:#?}", config.get_api_keys());
+
       if !config.is_api_key(&author_pk.to_hex()) {
         Err(Error::AuthorNotAuthorized)?
       }

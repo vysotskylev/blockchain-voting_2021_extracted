@@ -5,6 +5,7 @@ package votings_service;
 import "exonum/crypto/types.proto";
 import "custom_types.proto";
 import "enums.proto";
+import "config.proto";
 
 message TxCryptoSystemSettings {
   votings_service.SealedBoxPublicKey public_key = 1;
@@ -103,4 +104,8 @@ message TxFinalizeVotingWithResults {
   string voting_id = 1;
   uint64 seed = 2;
   TxVotingResults results = 3;
+}
+
+message TxChangePublicApiKey {
+  ServiceConfig service_config = 1;
 }

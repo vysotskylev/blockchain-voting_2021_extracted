@@ -69,6 +69,7 @@ impl Configure for VotingsService {
         context: ExecutionContext<'_>,
         params: Self::Params,
     ) -> Result<(), ExecutionError> {
+        println!("Serice params: {:#?}", params);
         let mut service_config = ServiceConfig::instantiate(context.service_data());
         service_config.config.set(params);
         Ok(())
