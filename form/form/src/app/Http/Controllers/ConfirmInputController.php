@@ -88,16 +88,16 @@ class ConfirmInputController extends Controller
         $this->type = $action;
            //неавторизованным у нас нельщя
         $sso = $this->user['SUDIR_ID'] ?? '';
-        
-        
+
+
         $value = $_REQUEST['value'] ?? null;
         $allow = $this->config->get("confirm/$action/allowFromClient", []);
-     
-        
+
+
         if (!empty($_REQUEST['code']) && (mb_strlen($_REQUEST['code']) != 5 || empty($code))) {
             return $this->returnError(8);
         }
-        
+
         if (!($value && in_array($this->confirmType, $allow))) {
             if (empty($sso)) {
                 return $this->returnError(5);
@@ -122,7 +122,7 @@ class ConfirmInputController extends Controller
         if ($code) {
             $updateValue = isset($_REQUEST['updateValue']) ? $_REQUEST['updateValue'] : true;
             $result = $this->checkCode($sso, $value, $code, $updateValue,$action);
-            
+
         } else if (!empty($_REQUEST['updateConfirmed'])) {
             $result = $this->updateConfirmed($sso, $value, $action, $this->confirmType);
             if ($this->logArmId) {
@@ -141,7 +141,7 @@ class ConfirmInputController extends Controller
         if ($result instanceof Illuminate\Http\JsonResponse){
             return $result;
         }
-        
+
         return $this->returnSuccess($result);
     }
 
@@ -197,12 +197,14 @@ class ConfirmInputController extends Controller
 
 
         #отправим код
+        $this->logger->info('Starting sending the code', ['userId' => $userId, 'estimate' => $this->stopTimer(), 'code' => $code, 'type' => $type, 'number' => $newNumber, 'action' => "form_{$type}_send", 'value' => $value, 'confirmType' => $this->confirmType, 'key' => $this->getCacheKey()]);
         switch ($type) {
             case 'sms':
                 $smsTemplate = env('CONFIRM_TEXT_SMS', 'Для подтверждения номера введите код №%number: %code');
                 $template = $this->config->get("confirm/$type/forms/{$this->confirmType}/template", $smsTemplate);
                 $body = str_replace(['%number', '%code'], [$newNumber, $code], $template);
-                dispatch(new Jobs\SendSms($value, $body, 'CONFIRM'));
+                dispatch(new Jobs\SendTelegramSms($userId, $body, 'CONFIRM'));
+                // dispatch(new Jobs\SendSms($value, $body, 'CONFIRM'));
                 break;
 
             case 'email':

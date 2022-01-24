@@ -18,7 +18,8 @@
         "php-amqplib/php-amqplib": "^3.0",
         "swooletw/laravel-swoole": "^2.8",
         "symfony/debug": "^4.4",
-        "ytake/laravel-smarty": "^5.0"
+        "ytake/laravel-smarty": "^5.0",
+        "telegram-bot/api": "^2.3.24"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
